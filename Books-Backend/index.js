@@ -17,10 +17,37 @@ port: 3306,
 });
 app.post("/api/machineModel",(req,res)=>{
     const isbn=req.body.isbn;
-    const spawn = require("child_process").spawn;
-    const pythonProcess = spawn('python',["app1.py", isbn]);
-    pythonProcess.stdout.on('data', (data) => {
-        res.send(data);
+    console.log(isbn);
+    const PythonShell = require('python-shell').PythonShell;
+    var options = {
+    mode: 'text',
+    pythonOptions: ['-u'],
+    args: [isbn]
+    };
+    PythonShell.run('./app1.py', options, function (err, results) {
+        var ans=""
+    if (err) 
+        ans="";
+    // if(results===null)
+    // {
+    // const ret=(results[0]).slice(0,-1);
+    // const fu=((ret).slice(1)).split(',');
+    // console.log(fu);
+    // res.send(fu);
+    // }
+    // else
+    //     res.send("");
+        if(results===null)
+            ans="";
+        else if(results[0].length>1)
+        {
+            const ret=(results[0]).slice(0,-1);
+            const fu=((ret).slice(1)).split(',');
+            console.log(fu);
+            ans=fu;
+        }
+        console.log(ans);
+        res.send(ans);
     });
 });
 app.post("/api/getDetails",(req,res)=>{

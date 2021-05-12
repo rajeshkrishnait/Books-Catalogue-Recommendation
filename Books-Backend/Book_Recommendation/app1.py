@@ -22,8 +22,8 @@ def predict(str):
         book_name = users_combined_rating_pivot.iloc[indices.flatten()[i]][0]
         list_books.append(book_name)
     print(list_books)
-    sys.stdout.flush()
+    #sys.stdout.flush()
 
 if __name__ == '__main__':
-    str = sys.argv[1]
-    predict(str)
+    #str = sys.argv[1]
+    predict("malazan")
